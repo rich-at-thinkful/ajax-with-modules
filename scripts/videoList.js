@@ -2,6 +2,23 @@
 
 const videoList = (function(){
   /**
+   * Uses Youtube response to create a simple object of key data needed to render HTML
+   * @param   {Object} response - Response from Youtube Search API
+   * @returns {Object}          
+   * - { title: String, thumbnails: Object, videoUrl: String, channelTitle: String } 
+   */
+  const decorateResponse = function(response) {
+    return response.items.map(item => {
+      const { title, thumbnails, channelTitle } = item.snippet;
+      const { videoId } = item.id;
+      return {
+        title, thumbnails, channelTitle,
+        videoUrl: videoId ? `https://youtube.com/watch?v=${videoId}` : null
+      };
+    });
+  };
+
+  /**
    * Takes in decorated video object and returns HTML snippet
    * @param   {Object} video - should contain title, thumbnails, channelTitle, videoUrl properties 
    * @returns {String}       - HTML ready for DOM 
@@ -32,7 +49,8 @@ const videoList = (function(){
       const searchTerm = searchInput.val();
       api.fetchVideos(searchTerm, videos => {
         searchInput.val('');
-        store.setVideos(videos);
+        const decoratedVideos = decorateResponse(videos);
+        store.setVideos(decoratedVideos);
         render();
       });
     });
