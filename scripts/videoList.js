@@ -2,10 +2,10 @@
 
 const videoList = (function(){
   /**
-   * Uses Youtube response to create a simple object of key data needed to render HTML
+   * Accepts an AJAX response object and converts the appropriate data to an 
+   * array of decorated video objects to be placed in the Store.
    * @param   {Object} response - Response from Youtube Search API
-   * @returns {Object}          
-   * - { title: String, thumbnails: Object, videoUrl: String, channelTitle: String } 
+   * @returns {Array} - [ { title: String, thumbnails: Object, videoUrl: String, channelTitle: String } ]
    */
   const decorateResponse = function(response) {
     return response.items.map(item => {
@@ -42,6 +42,11 @@ const videoList = (function(){
       `;
   };
 
+  /**
+   * Creates Form Submit event listener. Fetches search term input from DOM. Calls API
+   * function, then decorates the response, places the decorated response in store, and calls
+   * for re-render.
+   */
   const handleFormSubmit = function() {
     $('form').submit(e => {
       e.preventDefault();

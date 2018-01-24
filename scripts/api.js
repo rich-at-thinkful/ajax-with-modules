@@ -4,10 +4,9 @@ const api = (function(){
   const BASE_API = 'https://www.googleapis.com/youtube/v3/search';
 
   /**
-   * Asyncronously call Youtube API and invoke callback when response received, 
-   * sending in a `videos` array of objects with following properties:
-   * title (string), thumbnails (array), channelTitle (string), videoId (string)
-   *  
+   * Asyncronous function that accepts a search term, then constructs and invokes
+   * an AJAX call to Youtube Search API. Callback is invoked on the response to
+   * the AJAX call.
    * @param {string}   searchTerm
    * @param {function} callback
    */
